@@ -27,14 +27,10 @@ myChart = runGraph(yAxis);
 
 function myFunction() {
  
-   // myChart.destroy();  // call destroy before loading new dataset
     let newP = document.getElementById('principal').value;
     yAxis = evaluate(xAxis, newP, rate);
 
-    /*document.getElementById.innerHTML = newP;
-    myChart.destroy();
-    myChart = runGraph(yAxis);
-    */
+  
     myChart.destroy();
     myChart = runGraph(yAxis);
 
@@ -48,13 +44,11 @@ function runGraph(ydata) {
     
         // The data for our dataset
         data: {
-            // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             labels: xAxis,
             datasets: [{
-                label: 'My First dataset',
+                label: 'Growth Of Donation',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                // data: [0, 10, 5, 2, 20, 30, 45]
                 data : ydata
             }]
         },
