@@ -16,6 +16,9 @@ html {
   font-size: 1em;
   line-height: 1.4;
 }
+canvas {
+  display: inline;
+}
 
 /*
  * Remove text-shadow in selection highlight:
@@ -263,8 +266,4 @@ textarea {
   }
 }
 
-.chart {
-  width: 40%;
-  height: 40%;
 
-}

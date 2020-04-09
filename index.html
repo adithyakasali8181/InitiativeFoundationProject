@@ -13,26 +13,43 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/indexstyle.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
 
-<body>
+<body class="center">
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
 
   <!-- Add your site or application content here -->
 
- <form>
-  Donation: <input type="number" id="principal">
-  Interest Rate: <input type="number" id="rate">
-  <input type="Button" onclick="myFunction()" value="Submit">
- </form>
-  <div class="chart">
-    <canvas id="myChart" style="position: relative;"></canvas>
+ <form> 
+  <div class="myGrid">
+    <div>  
+      Donation:
+    </div>
+ 
+    <div>
+      <input type="number" id="principal">
+    </div>
+    <div>
+      Interest Rate: 
+    </div>
+    <div>
+      <input type="number" id="rate">
+    </div>
   </div>
-  <table id="tab" border="1"> </table>
+  <input type="Button" onclick="myFunction()" value="Submit" id="submitButton">
+
+ </form>
+  <div class="chart"  >
+    <canvas id="myChart" ></canvas>
+  </div>
+  <div class="ourtable"  >
+  <table id="tab" class="center"> </table>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="js/vendor/modernizr-3.8.0.min.js"></script>
   <script src="js/main.js"></script>

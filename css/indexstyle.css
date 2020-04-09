@@ -1,0 +1,33 @@
+
+
+.center {
+    text-align: center;
+    width: 900px; 
+	margin: 0 auto; 
+}
+#submitButton {
+    background-color: rgb(255, 99, 132);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.myGrid {
+
+    display: grid;
+    align-content: center;
+}
+
+.ourtable {
+    border-collapse: collapse;
+    text-align:center; 
+  }
+  
+  th, td {
+    text-align: center;
+    padding: 8px;
+  }
+  tr:nth-child(even) {background-color: #f2f2f2;}
+
