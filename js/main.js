@@ -12,7 +12,6 @@ function evaluate(xAxis, p, gr, pr) {
   let arr = [];
   for(let i = 0; i < xAxis.length; i++) {
     arr.push(p * Math.pow( (((1-(pr/2))*(1 + gr)) - (pr/2)), xAxis[i]));
-    console.log("" + ((1-(pr/2))*(1 + gr)) - (pr/2));
   }
   return arr;
 };
@@ -33,6 +32,7 @@ function calcCumulGrant(netGrant) {
   return arr;
 }
 let myChart;
+let tChart;
 let principal = 10000;
 let startTime = 1;
 let endTime = 25;
@@ -46,6 +46,7 @@ let netGrant = calcNetGrant(xAxis, yAxis); // calculates (spending - fee) per ye
 let cumulGrant = calcCumulGrant(netGrant); // calculate cumulative grant amount per year
 let clicked = false;
 myChart = runGraph(yAxis);
+tChart = runTGraph(cumulGrant);
 
 function myFunction() {
 
@@ -61,7 +62,9 @@ function myFunction() {
     cumulGrant = calcCumulGrant(netGrant);
 
     myChart.destroy();
+    tChart.destroy();
     myChart = runGraph(yAxis);
+    tChart = runTGraph(cumulGrant);
     let table = document.getElementById('tab');
     if(clicked) {
       clear(table);
@@ -121,4 +124,26 @@ function runGraph(ydata) {
         options: {}
     });
     return chart; // return chart object
-  }
+}
+function runTGraph(ydata) {
+    let ctx = document.getElementById('tChart').getContext('2d');
+    let chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: xAxis,
+            datasets: [{
+                label: 'Total Payments',
+                backgroundColor: 'rgb(26, 188, 156)',
+                borderColor: 'rgb(26, 188, 156)',
+                data : ydata
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+    return chart; // return chart object
+}
