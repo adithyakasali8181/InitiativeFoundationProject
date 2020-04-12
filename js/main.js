@@ -1,15 +1,18 @@
-let myChart;
-let tChart;
-let table;
-let principal = 10000;
-let startTime = 1;
-let endTime = 25;
-let increment = 1;
-let growthRate = .075;
-let paymentRate = .05;
-let feeRate = 0.01;
-let xAxis = range(startTime, endTime, increment);
-createChartsTables(xAxis, principal, growthRate);
+let myChart; // Value of Donation over time chart
+let tChart; // Value of Cumulative payments over time chart
+let table; // Table with key values over time
+let principal = 10000; // default principal amount
+let startTime = 1; // start year
+let endTime = 25; // end year
+let increment = 1; // increment
+let growthRate = .075; // default growth rate
+let paymentRate = .05; // default payment rate
+let feeRate = 0.01; // default admin fee rate
+let xAxis = range(startTime, endTime, increment); // construct the x axis
+createChartsTables(xAxis, principal, growthRate); // create charts and tables with default values
+/*
+  myFunction execute when user submits prinicipal and growth rate
+*/
 function myFunction() {
     let newP = document.getElementById('principal').value;
     let newGr = document.getElementById('rate').value;
@@ -23,6 +26,9 @@ function myFunction() {
     clear(table);
     createChartsTables(xAxis, newP, newGr);
 }
+/*
+  return a vector from start to end with increment of step
+*/
 function range(start, end, step) {
     if (!step) step = 1 // step size of zero makes no sense
     let arrayNum = [];
@@ -32,7 +38,9 @@ function range(start, end, step) {
     }
     return arrayNum;
 };
-
+/*
+  calculate the growth of donation over time and return it.
+*/
 function evaluate(xAxis, p, gr, pr) {
   let arr = [];
   for(let i = 0; i < xAxis.length; i++) {
@@ -40,6 +48,9 @@ function evaluate(xAxis, p, gr, pr) {
   }
   return arr;
 };
+/*
+  calculate the growth of donation over time and return it.
+*/
 function calcNetGrant(xAxis, yAxis) {
   let arr = [];
   for(let i = 0; i < xAxis.length; i++) {
@@ -47,6 +58,9 @@ function calcNetGrant(xAxis, yAxis) {
   }
   return arr;
 }
+/*
+  calculate the cumulative payment for each year and return it.
+*/
 function calcCumulGrant(netGrant) {
   let arr = [];
   let sum = 0;
@@ -56,6 +70,9 @@ function calcCumulGrant(netGrant) {
   }
   return arr;
 }
+/*
+  create charts and a table given x axis, new prinicipal, and new growth rate
+*/
 function createChartsTables(xAxis, principal, growthRate ) {
   let yAxis = evaluate(xAxis, principal, growthRate, paymentRate);
   let netGrant = calcNetGrant(xAxis, yAxis); // calculates (spending - fee) per year
@@ -66,11 +83,17 @@ function createChartsTables(xAxis, principal, growthRate ) {
   generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
   document.getElementById('text').innerHTML = "Your donation of $" + principal + " will be worth $" + Math.trunc(yAxis[xAxis.length - 1]) + " after 25 years.";
 }
+/*
+  delete the old table
+*/
 function clear(table) {
   for(let i = 0; i <= 5; i++){
     table.deleteRow(0);
   }
 };
+/*
+  generate new table based on the new info
+*/
 function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
     for(let i = 24; i >= 4; i = i - 5) {
       let row = table.insertRow(0);
@@ -98,7 +121,9 @@ function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
     cell4.innerHTML = "<td>Payment</td>";
     cell5.innerHTML = "<td>Total Payment</td>";
 };
-
+/*
+  return a chart with given the chart element id, label, and color
+*/
 function runGraph(ydata, chartName, label, color) {
     console.log(chartName);
     let ctx = document.getElementById(chartName).getContext('2d');
