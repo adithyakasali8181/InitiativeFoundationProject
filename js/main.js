@@ -81,7 +81,8 @@ function createChartsTables(xAxis, principal, growthRate ) {
   tChart = runGraph(cumulGrant, 'tChart', 'Total Payments', 'rgb(26, 188, 156)');
   table = document.getElementById('tab');
   generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
-  document.getElementById('text').innerHTML = "Your donation of $" + principal + " will be worth $" + Math.trunc(yAxis[xAxis.length - 1]) + " after 25 years.";
+  const fvalue = Math.trunc(yAxis[xAxis.length - 1]);
+  document.getElementById('text').innerHTML = "Your donation of $" + principal + " will be worth " + "$".bold() + fvalue.toString().bold() + " after 25 years.";
 }
 /*
   delete the old table
