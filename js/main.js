@@ -1,4 +1,29 @@
-function range (start, end, step) {
+let myChart;
+let tChart;
+let table;
+let principal = 10000;
+let startTime = 1;
+let endTime = 25;
+let increment = 1;
+let growthRate = .075;
+let paymentRate = .05;
+let feeRate = 0.01;
+let xAxis = range(startTime, endTime, increment);
+createChartsTables(xAxis, principal, growthRate);
+function myFunction() {
+    let newP = document.getElementById('principal').value;
+    let newGr = document.getElementById('rate').value;
+    if(newGr > 10 || newGr < 0) {
+      alert("Pick interest rates between 0 and 10");
+      newGr = 7.5;
+    }
+    newGr = newGr/100 ;
+    myChart.destroy();
+    tChart.destroy();
+    clear(table);
+    createChartsTables(xAxis, newP, newGr);
+}
+function range(start, end, step) {
     if (!step) step = 1 // step size of zero makes no sense
     let arrayNum = [];
     // using ternary to decide stopping condition
@@ -31,51 +56,16 @@ function calcCumulGrant(netGrant) {
   }
   return arr;
 }
-let myChart;
-let tChart;
-let principal = 10000;
-let startTime = 1;
-let endTime = 25;
-let increment = 1;
-let growthRate = .075;
-let paymentRate = .05;
-let feeRate = 0.01;
-let xAxis = range(startTime, endTime, increment);
-let yAxis = evaluate(xAxis, principal, growthRate, paymentRate);
-let netGrant = calcNetGrant(xAxis, yAxis); // calculates (spending - fee) per year
-let cumulGrant = calcCumulGrant(netGrant); // calculate cumulative grant amount per year
-let clicked = false;
-myChart = runGraph(yAxis);
-tChart = runTGraph(cumulGrant);
-
-function myFunction() {
-
-    let newP = document.getElementById('principal').value;
-    let newGr = document.getElementById('rate').value;
-    if(newGr > 10 || newGr < 0) {
-      alert("Pick interest rates between 0 and 10");
-      newGr = 7.5;
-    }
-    newGr = newGr/100 ;
-    yAxis = evaluate(xAxis, newP, newGr, paymentRate);
-    netGrant = calcNetGrant(xAxis, yAxis);
-    cumulGrant = calcCumulGrant(netGrant);
-
-    myChart.destroy();
-    tChart.destroy();
-    myChart = runGraph(yAxis);
-    tChart = runTGraph(cumulGrant);
-    let table = document.getElementById('tab');
-    if(clicked) {
-      clear(table);
-    }
-    generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
-    document.getElementById('text').innerHTML = "Your donation of $" + newP + " will be worth $" + Math.trunc(yAxis[xAxis.length - 1]) + " after 25 years.";
-
-    clicked = true;
-
+function createChartsTables(xAxis, principal, growthRate ) {
+  let yAxis = evaluate(xAxis, principal, growthRate, paymentRate);
+  let netGrant = calcNetGrant(xAxis, yAxis); // calculates (spending - fee) per year
+  let cumulGrant = calcCumulGrant(netGrant); // calculate cumulative grant amount per year
+  myChart = runGraph(yAxis, 'myChart', 'Growth Of Donation', 'rgb(255, 99, 132)');
+  tChart = runGraph(cumulGrant, 'tChart', 'Total Payments', 'rgb(26, 188, 156)');
+  table = document.getElementById('tab');
+  generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
+  document.getElementById('text').innerHTML = "Your donation of $" + principal + " will be worth $" + Math.trunc(yAxis[xAxis.length - 1]) + " after 25 years.";
 }
-
 function clear(table) {
   for(let i = 0; i <= 5; i++){
     table.deleteRow(0);
@@ -109,8 +99,9 @@ function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
     cell5.innerHTML = "<td>Total Payment</td>";
 };
 
-function runGraph(ydata) {
-    let ctx = document.getElementById('myChart').getContext('2d');
+function runGraph(ydata, chartName, label, color) {
+    console.log(chartName);
+    let ctx = document.getElementById(chartName).getContext('2d');
     let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -119,31 +110,9 @@ function runGraph(ydata) {
         data: {
             labels: xAxis,
             datasets: [{
-                label: 'Growth Of Donation',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data : ydata
-            }]
-        },
-
-        // Configuration options go here
-        options: {}
-    });
-    return chart; // return chart object
-}
-function runTGraph(ydata) {
-    let ctx = document.getElementById('tChart').getContext('2d');
-    let chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-            labels: xAxis,
-            datasets: [{
-                label: 'Total Payments',
-                backgroundColor: 'rgb(26, 188, 156)',
-                borderColor: 'rgb(26, 188, 156)',
+                label: label,
+                backgroundColor: color,
+                borderColor: color,
                 data : ydata
             }]
         },
