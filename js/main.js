@@ -10,11 +10,21 @@ let paymentRate = .05; // default payment rate
 let feeRate = 0.01; // default admin fee rate
 let xAxis = range(startTime, endTime, increment); // construct the x axis
 createChartsTables(xAxis, principal, growthRate); // create charts and tables with default values
+var pin = document.getElementById("principal"); // principal input element variable
+// the element is not null, listen for input to add commas
+if(pin) {
+  pin.addEventListener("input", function(event){
+    let textInt = parseInt(pin.value);
+    let num = pin.value.replace(/,/gi, "").split("").reverse().join("");
+    let num2 = removeRougeChar(num.replace(/(.{3})/g,"$1,").split("").reverse().join(""));
+    pin.value = num2;
+  })
+}
 /*
   myFunction execute when user submits prinicipal and growth rate
 */
 function myFunction() {
-    let newP = document.getElementById('principal').value;
+    let newP = pin.value.replace(",", "");
     let newGr = document.getElementById('rate').value;
     // if growth rate input is null
     if(newGr == "") {
@@ -80,6 +90,7 @@ function calcCumulGrant(netGrant) {
 }
 /*
   create charts and a table given x axis, new prinicipal, and new growth rate
+  shows user the growth of investments after 25 years
 */
 function createChartsTables(xAxis, principal, growthRate ) {
   let yAxis = evaluate(xAxis, principal, growthRate, paymentRate);
@@ -90,7 +101,7 @@ function createChartsTables(xAxis, principal, growthRate ) {
   table = document.getElementById('tab');
   generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
   const fvalue = Math.trunc(yAxis[xAxis.length - 1]);
-  document.getElementById('text').innerHTML = "Your donation of $" + principal.toLocaleString() + " will be worth " + "$".bold() + fvalue.toLocaleString().bold() + " after 25 years.";
+  document.getElementById('text').innerHTML = "Your donation of $" + parseInt(principal).toLocaleString() + " will be worth " + "$".bold() + fvalue.toLocaleString().bold() + " after 25 years.";
 }
 /*
   delete the old table
@@ -134,7 +145,6 @@ function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
   return a chart with given the chart element id, label, and color
 */
 function runGraph(ydata, chartName, label, color) {
-    console.log(chartName);
     let ctx = document.getElementById(chartName).getContext('2d');
     let chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -164,4 +174,13 @@ function runGraph(ydata, chartName, label, color) {
         }
     });
     return chart; // return chart object
+}
+/*
+  remove rouge comma if number is shortened
+*/
+function removeRougeChar(convertString){
+    if(convertString.substring(0,1) == ","){
+        return convertString.substring(1, convertString.length)
+    }
+    return convertString;
 }
