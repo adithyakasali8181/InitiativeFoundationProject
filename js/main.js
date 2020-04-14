@@ -16,6 +16,14 @@ createChartsTables(xAxis, principal, growthRate); // create charts and tables wi
 function myFunction() {
     let newP = document.getElementById('principal').value;
     let newGr = document.getElementById('rate').value;
+    // if growth rate input is null
+    if(newGr == "") {
+      newGr = 7.5;
+    }
+    // if prinicipal input is null
+    if(newP == "") {
+      newP = principal;
+    }
     if(newGr > 10 || newGr < 0) {
       alert("Pick interest rates between 0 and 10");
       newGr = 7.5;
