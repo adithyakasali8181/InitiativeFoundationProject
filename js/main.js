@@ -24,7 +24,7 @@ if(pin) {
   myFunction execute when user submits prinicipal and growth rate
 */
 function myFunction() {
-    let newP = pin.value.replace(",", "");
+    let newP = pin.value.replace(/,/g, "");
     let newGr = document.getElementById('rate').value;
     // if growth rate input is null
     if(newGr == "") {
