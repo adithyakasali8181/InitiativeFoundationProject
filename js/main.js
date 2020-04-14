@@ -30,6 +30,10 @@ function myFunction() {
     if(newGr == "") {
       newGr = 7.5;
     }
+    if(isNaN(parseInt(newP))) {
+      alert("pick a integer amount");
+      newP = principal;
+    }
     // if prinicipal input is null
     if(newP == "") {
       newP = principal;
