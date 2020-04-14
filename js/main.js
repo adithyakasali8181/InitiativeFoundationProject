@@ -112,10 +112,10 @@ function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
       let cell4 = row.insertCell(3);
       let cell5 = row.insertCell(4);
       cell1.innerHTML = "<td>" + xAxis[i] + "</td>";
-      cell2.innerHTML = "<td>" + "$" + Math.trunc(yAxis[i])+ "</td>";
-      cell3.innerHTML = "<td>" + "$" + Math.trunc(feeRate*yAxis[i]) + "</td>";
-      cell4.innerHTML = "<td>" + "$" + Math.trunc(netGrant[i])+ "</td>";
-      cell5.innerHTML = "<td>" + "$" + Math.trunc(cumulGrant[i])+ "</td>";
+      cell2.innerHTML = "<td>" + "$" + Math.trunc(yAxis[i]).toLocaleString()+ "</td>";
+      cell3.innerHTML = "<td>" + "$" + Math.trunc(feeRate*yAxis[i]).toLocaleString() + "</td>";
+      cell4.innerHTML = "<td>" + "$" + Math.trunc(netGrant[i]).toLocaleString()+ "</td>";
+      cell5.innerHTML = "<td>" + "$" + Math.trunc(cumulGrant[i]).toLocaleString()+ "</td>";
     }
     let header = table.createTHead();
     let row = header.insertRow(0);
@@ -139,7 +139,6 @@ function runGraph(ydata, chartName, label, color) {
     let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
-
         // The data for our dataset
         data: {
             labels: xAxis,
