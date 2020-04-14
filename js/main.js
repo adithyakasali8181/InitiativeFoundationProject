@@ -90,7 +90,7 @@ function createChartsTables(xAxis, principal, growthRate ) {
   table = document.getElementById('tab');
   generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
   const fvalue = Math.trunc(yAxis[xAxis.length - 1]);
-  document.getElementById('text').innerHTML = "Your donation of $" + principal + " will be worth " + "$".bold() + fvalue.toString().bold() + " after 25 years.";
+  document.getElementById('text').innerHTML = "Your donation of $" + principal.toLocaleString() + " will be worth " + "$".bold() + fvalue.toLocaleString().bold() + " after 25 years.";
 }
 /*
   delete the old table
@@ -151,7 +151,17 @@ function runGraph(ydata, chartName, label, color) {
         },
 
         // Configuration options go here
-        options: {}
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                userCallback: function(value, index, values) {
+                    return value.toLocaleString();
+                }
+              }
+            }]
+          }
+        }
     });
     return chart; // return chart object
 }
