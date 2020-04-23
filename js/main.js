@@ -105,7 +105,7 @@ function createChartsTables(xAxis, principal, growthRate ) {
   table = document.getElementById('tab');
   generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
   const fvalue = Math.trunc(yAxis[xAxis.length - 1]);
-  document.getElementById('text').innerHTML = "Your donation of $" + parseInt(principal).toLocaleString() + " will be worth " + "$".bold() + fvalue.toLocaleString().bold() + " after 25 years.";
+  document.getElementById('text').innerHTML = "Your donation of $" + parseInt(principal).toLocaleString() + " could be worth " + "$".bold() + fvalue.toLocaleString().bold() + " after 25 years.";
 }
 /*
   delete the old table
@@ -128,7 +128,7 @@ function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
       let cell5 = row.insertCell(4);
       cell1.innerHTML = "<td>" + xAxis[i] + "</td>";
       cell2.innerHTML = "<td>" + "$" + Math.trunc(yAxis[i]).toLocaleString()+ "</td>";
-      cell3.innerHTML = "<td>" + "$" + Math.trunc(feeRate*yAxis[i]).toLocaleString() + "</td>";
+      // cell3.innerHTML = "<td>" + "$" + Math.trunc(feeRate*yAxis[i]).toLocaleString() + "</td>";
       cell4.innerHTML = "<td>" + "$" + Math.trunc(netGrant[i]).toLocaleString()+ "</td>";
       cell5.innerHTML = "<td>" + "$" + Math.trunc(cumulGrant[i]).toLocaleString()+ "</td>";
     }
@@ -141,7 +141,7 @@ function generateTable(table, xAxis, yAxis, netGrant, cumulGrant) {
     let cell5 = row.insertCell(4);
     cell1.innerHTML = "<td>Years</td>";
     cell2.innerHTML = "<td>Donation</td>";
-    cell3.innerHTML = "<td>Admin Fees</td>";
+    // cell3.innerHTML = "<td>Admin Fees</td>";
     cell4.innerHTML = "<td>Payment</td>";
     cell5.innerHTML = "<td>Total Payment</td>";
 };
