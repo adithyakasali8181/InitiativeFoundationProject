@@ -5,11 +5,11 @@ let principal = 10000; // default principal amount
 let startTime = 1; // start year
 let endTime = 25; // end year
 let increment = 1; // increment
-let growthRate = (Math.floor(Math.random()*(12 + 20)) - 20)/100 ; // default growth rate
+// let growthRate = (Math.floor(Math.random()*(12 + 20)) - 20)/100 ; // default growth rate
 let paymentRate = .05; // default payment rate
 let feeRate = 0.01; // default admin fee rate
 let xAxis = range(startTime, endTime, increment); // construct the x axis
-createChartsTables(xAxis, principal, growthRate); // create charts and tables with default values
+createChartsTables(xAxis, principal); // create charts and tables with default values
 var pin = document.getElementById("principal"); // principal input element variable
 // the element is not null, listen for input to add commas
 if(pin) {
@@ -25,11 +25,7 @@ if(pin) {
 */
 function myFunction() {
     let newP = pin.value.replace(/,/g, "");
-    let newGr = document.getElementById('rate').value;
     // if growth rate input is null
-    if(newGr == "") {
-      newGr = 7.5;
-    }
     if(isNaN(parseInt(newP))) {
       alert("pick a integer amount");
       newP = principal;
@@ -38,15 +34,10 @@ function myFunction() {
     if(newP == "") {
       newP = principal;
     }
-    if(newGr > 10 || newGr < 0) {
-      alert("Pick interest rates between 0 and 10");
-      newGr = 7.5;
-    }
-    newGr = newGr/100 ;
     myChart.destroy();
     tChart.destroy();
     clear(table);
-    createChartsTables(xAxis, newP, newGr);
+    createChartsTables(xAxis, newP);
 }
 /*
   return a vector from start to end with increment of step
@@ -65,9 +56,13 @@ function range(start, end, step) {
 */
 function evaluate(xAxis, p, gr, pr) {
   let arr = [];
-  for(let i = 0; i < xAxis.length; i++) {
-    arr.push(p * Math.pow( (((1-(pr/2))*(1 + gr)) - (pr/2)), xAxis[i]));
+  arr.push(p);
+  for(let i = 1; i < xAxis.length; i++) {
+    // mv[i] = (( mv[i-1] - ((mv[i-1]*sr)/ 2)) * (1 + ror)) - ((mv[i-1]sr)/2);
+    arr.push(arr[i-1] *((1-(pr/2))*(1+gr[i]) - pr/2));
+    // arr.push(p * Math.pow( (((1-(pr/2))*(1 + gr)) - (pr/2)), xAxis[i]));
   }
+  // console.log(gr);
   return arr;
 };
 /*
@@ -96,8 +91,9 @@ function calcCumulGrant(netGrant) {
   create charts and a table given x axis, new prinicipal, and new growth rate
   shows user the growth of investments after 25 years
 */
-function createChartsTables(xAxis, principal, growthRate ) {
-  let yAxis = evaluate(xAxis, principal, growthRate, paymentRate);
+function createChartsTables(xAxis, principal) {
+  let growthRates = createRandArray();
+  let yAxis = evaluate(xAxis, principal, growthRates, paymentRate);
   let netGrant = calcNetGrant(xAxis, yAxis); // calculates (spending - fee) per year
   let cumulGrant = calcCumulGrant(netGrant); // calculate cumulative grant amount per year
   myChart = runGraph(yAxis, 'myChart', 'Growth Of Donation', 'rgb(255, 99, 132)');
@@ -106,6 +102,14 @@ function createChartsTables(xAxis, principal, growthRate ) {
   generateTable(table, xAxis, yAxis, netGrant, cumulGrant);
   const fvalue = Math.trunc(yAxis[xAxis.length - 1]);
   document.getElementById('text').innerHTML = "Your donation of $" + parseInt(principal).toLocaleString() + " could be worth " + "$".bold() + fvalue.toLocaleString().bold() + " after 25 years.";
+}
+function createRandArray() {
+  let arr = [];
+  for(let i = 0; i < endTime; ++i) {
+    arr.push((Math.floor(Math.random()*(12 + 20)) - 20)/100);
+  }
+
+  return arr;
 }
 /*
   delete the old table
