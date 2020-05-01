@@ -5,7 +5,7 @@ let principal = 10000; // default principal amount
 let startTime = 1; // start year
 let endTime = 25; // end year
 let increment = 1; // increment
-// let growthRate = (Math.floor(Math.random()*(12 + 20)) - 20)/100 ; // default growth rate
+// let growthRate = (Math.random()*(31)) - 10)/100 ; // default growth rate
 let paymentRate = .05; // default payment rate
 let feeRate = 0.01; // default admin fee rate
 let xAxis = range(startTime, endTime, increment); // construct the x axis
@@ -106,7 +106,7 @@ function createChartsTables(xAxis, principal) {
 function createRandArray() {
   let arr = [];
   for(let i = 0; i < endTime; ++i) {
-    arr.push((Math.floor(Math.random()*(12 + 20)) - 20)/100);
+    arr.push(((Math.random() * (31)) -10)/100);
   }
 
   return arr;
